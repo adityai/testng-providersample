@@ -1,6 +1,8 @@
 package com.iaditya.testng.providersample;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -38,6 +40,17 @@ public class NewTest {
   }
   
   /**
+   * Sample test method to demonstrate execution of multiple iterations of the test method for
+   * each row of test data
+   * 
+   * @param dataMap
+   */
+  @Test(dataProvider="mapDataProvider")
+  public void testMethod3(Map<String, String> dataMap) {
+	  Assert.assertEquals(dataMap.get("dataKey"), "dataValue1");
+  }
+
+  /**
    * Single data provider for providing unique data to each test method
    * @param method
    * @return
@@ -50,8 +63,33 @@ public class NewTest {
 		  data = new Object[][] {{1,1}};
 	  }
 	  else if ("testMethod2".equals(method.getName())) {
-		  data = new Object[][] {{2,2}};
+		  //Two rows of data fed to one test method. 
+		  //Equivalent to two iterations of the same test executed with different data
+		  data = new Object[][] {{2,2}, {2, 2}};
 	  }
 	return data;
   }
+  
+  /**
+   * Sample data provider for executing multiple iterations of the same test with different rows of data
+   * 
+   * @param method
+   * @return
+   */
+  @DataProvider(name="mapDataProvider")
+  private Object[][] getMapData(Method method) {
+	  Object[][] data = null;
+	  Map<String, String> dataMap = new HashMap<String, String>();
+	  Map<String, String> dataMap1 = new HashMap<String, String>();
+
+	  //Two rows of data fed to one test method. 
+	  //Equivalent to two iterations of the same test executed with different data
+	  if ("testMethod3".equals(method.getName())) {
+		  dataMap.put("dataKey", "dataValue1");
+		  dataMap1.put("dataKey", "dataValue1");
+		  data = new Object[][] {{dataMap}, {dataMap1}};
+	  }
+	return data;
+  }
+  
 }
