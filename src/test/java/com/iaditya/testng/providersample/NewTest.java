@@ -50,6 +50,7 @@ public class NewTest {
 	  Assert.assertEquals(dataMap.get("dataKey"), "dataValue1");
   }
 
+  
   /**
    * Single data provider for providing unique data to each test method
    * @param method
