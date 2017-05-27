@@ -50,6 +50,17 @@ public class NewTest {
 	  Assert.assertEquals(dataMap.get("dataKey"), "dataValue1");
   }
 
+  /**
+   * Sample test method to demonstrate execution of multiple iterations of the test method for
+   * each row of test data
+   * 
+   * @param dataMap
+   */
+//  @Test(dataProvider="mapDataProvider")
+//  public void testMethod4(Map<String, String> dataMap) {
+//	  Assert.assertEquals(dataMap.get("dataKey"), "dataValue1");
+//  }
+
   
   /**
    * Single data provider for providing unique data to each test method
@@ -77,18 +88,25 @@ public class NewTest {
    * @param method
    * @return
    */
-  @DataProvider(name="mapDataProvider")
+  @SuppressWarnings("null")
+@DataProvider(name="mapDataProvider")
   private Object[][] getMapData(Method method) {
 	  Object[][] data = null;
 	  Map<String, String> dataMap = new HashMap<String, String>();
 	  Map<String, String> dataMap1 = new HashMap<String, String>();
+	  dataMap.put("dataKey", "dataValue1");
+	  dataMap1.put("dataKey", "dataValue1");
 
 	  //Two rows of data fed to one test method. 
 	  //Equivalent to two iterations of the same test executed with different data
 	  if ("testMethod3".equals(method.getName())) {
-		  dataMap.put("dataKey", "dataValue1");
-		  dataMap1.put("dataKey", "dataValue1");
 		  data = new Object[][] {{dataMap}, {dataMap1}};
+	  }
+	  //Example for putting three data maps in the object array in a loop
+	  else if ("testMethod4".equals(method.getName())) {
+		  for (int i=0;i<3;i++) {
+			  data[i][0] = dataMap;
+		  }
 	  }
 	return data;
   }
